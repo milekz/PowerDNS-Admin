@@ -57,14 +57,13 @@ services:
     environment:
       - MYSQL_DATABASE=${PDA_DB_NAME}
       - MYSQL_USER=${PDA_DB_USER}
-      - MYSQL_PASSWORD=${PDA_DB_PASSWORD}
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 10s
       retries: 5
 
   pdns-server:
-    image: psitrax/powerdns
+    image: milekz/docker-powerdns
     hostname: ${PDNS_HOST}
     ports:
       - "53:53"
@@ -73,36 +72,55 @@ services:
       - default
     command: --api=yes --api-key=${PDNS_API_KEY} --webserver-address=0.0.0.0 --webserver-allow-from=0.0.0.0/0
     environment:
-      - MYSQL_HOST=${PDNS_DB_HOST}
-      - MYSQL_USER=${PDNS_DB_USER}
-      - MYSQL_PASS=${PDNS_DB_PASSWORD}
+#      - MYSQL_HOST=${PDNS_DB_HOST}
+#      - MYSQL_USER=${PDNS_DB_USER}
+#      - MYSQL_PASS=${PDNS_DB_PASSWORD}
+      - PGSQL_HOST=${PDNS_PGDB_HOST}
+      - PGSQL_USER=${PDNS_PGDB_USER}
+      - PGSQL_PASS=${PDNS_PGDB_PASSWORD}
       - PDNS_API_KEY=${PDNS_API_KEY}
       - PDNS_WEBSERVER_ALLOW_FROM=${PDNS_WEBSERVER_ALLOW_FROM}
     depends_on:
-      pdns-mysql:
-        condition: service_healthy
+      - pdns-postgres
+#        condition: service_healthy
 
-  pdns-mysql:
-    image: mysql/mysql-server:5.7
-    hostname: ${PDNS_DB_HOST}
-    container_name: ${PDNS_DB_HOST}
-    mem_limit: 256M
-    memswap_limit: 256M
-    expose:
-      - 3306
-    volumes:
-      - powerdns-mysql-data:/var/lib/mysql
-    networks:
-      - default
-    environment:
-      - MYSQL_DATABASE=${PDNS_DB_NAME}
-      - MYSQL_USER=${PDNS_DB_USER}
-      - MYSQL_PASSWORD=${PDNS_DB_PASSWORD}
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 10s
-      retries: 5
+#  pdns-mysql:
+#    image: mysql/mysql-server:5.7
+#    hostname: ${PDNS_DB_HOST}
+#    container_name: ${PDNS_DB_HOST}
+#    mem_limit: 256M
+#    memswap_limit: 256M
+#    expose:
+#      - 3306
+#    volumes:
+#      - powerdns-mysql-data:/var/lib/mysql
+#    networks:
+#      - default
+#    environment:
+#      - MYSQL_DATABASE=${PDNS_DB_NAME}
+#      - MYSQL_USER=${PDNS_DB_USER}
+#      - MYSQL_PASSWORD=${PDNS_DB_PASSWORD}
+#    healthcheck:
+#      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+#      timeout: 10s
+#      retries: 5
 
+  pdns-postgres:
+     image: postgres:10-alpine
+     hostname: ${PDNS_PGDB_HOST}
+     container_name: ${PDNS_PGDB_HOST}
+     volumes:
+        - powerdns-postgres-data:/var/lib/postgresql/data/
+        - ./db_schema:/docker-entrypoint-initdb.d/
+     restart: always
+     environment:
+        - POSTGRES_PASSWORD=${PDNS_PGDB_PASSWORD}
+        - PGSQL_DBNAME=${PDNS_PGDB_NAME}
+        - PGSQL_USER=${PDNS_PGDB_USER}
+        - PGSQL_PASS=${PDNS_PGDB_PASSWORD}
+
+                                      
+                                      
 networks:
   default:
 
@@ -112,3 +130,5 @@ volumes:
   powerdns-admin-assets:
   powerdns-admin-assets2:
   powerdns-admin-assets3:
+  powerdns-postgres-data:
+  

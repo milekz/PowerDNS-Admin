@@ -1,0 +1,10 @@
+
+--create user {$PDNS_PGDB_USER} with password '{$PDNS_PGDB_PASSWORD}';
+--CREATE DATABASE {$PDNS_PGDB_NAME} OWNER {$PDNS_PGDB_USER} ;
+
+--create user pdns with password 'changeme';
+--CREATE DATABASE pdns OWNER pdns ;
+
+create user PGDB_USER with password 'PGDB_PASSWORD';
+CREATE DATABASE PGDB_NAME OWNER PGDB_USER ;
+
