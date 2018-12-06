@@ -11,5 +11,6 @@ psql  < /tmp/20-schema.yyy
 psql -U ${PGSQL_USER} ${PGSQL_DBNAME} < /docker-entrypoint-initdb.d/30-schema.xxx
 
 unset PGSQL_PASS
+export PGSQL_PASS=xxxxxxxxxxxxxx
 rm /tmp/20-schema.yyy
  
