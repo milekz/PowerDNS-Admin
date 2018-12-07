@@ -57,6 +57,7 @@ services:
     environment:
       - MYSQL_DATABASE=${PDA_DB_NAME}
       - MYSQL_USER=${PDA_DB_USER}
+      - MYSQL_PASSWORD=${PDA_DB_PASSWORD}
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 10s
