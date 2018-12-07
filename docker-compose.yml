@@ -53,26 +53,26 @@ services:
 #      powerdns-admin-mysql:
 #        condition: service_healthy
 
-  powerdns-admin-mysql:
-    image: mysql/mysql-server:5.7
-    hostname: ${PDA_DB_HOST}
-    container_name: powerdns-admin-mysql
-    mem_limit: 256M
-    memswap_limit: 256M
-    expose:
-      - 3306
-    volumes:
-      - powerdns-admin-mysql-data:/var/lib/mysql
-    networks:
-      - default
-    environment:
-      - MYSQL_DATABASE=${PDA_DB_NAME}
-      - MYSQL_USER=${PDA_DB_USER}
-      - MYSQL_PASSWORD=${PDA_DB_PASSWORD}
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 10s
-      retries: 5
+#  powerdns-admin-mysql:
+#    image: mysql/mysql-server:5.7
+#    hostname: ${PDA_DB_HOST}
+#    container_name: powerdns-admin-mysql
+#    mem_limit: 256M
+#    memswap_limit: 256M
+#    expose:
+#      - 3306
+#    volumes:
+#      - powerdns-admin-mysql-data:/var/lib/mysql
+#    networks:
+#      - default
+#    environment:
+#      - MYSQL_DATABASE=${PDA_DB_NAME}
+#      - MYSQL_USER=${PDA_DB_USER}
+#      - MYSQL_PASSWORD=${PDA_DB_PASSWORD}
+#    healthcheck:
+#      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+#      timeout: 10s
+#      retries: 5
 
   pdns-server:
     image: milekz/docker-powerdns
