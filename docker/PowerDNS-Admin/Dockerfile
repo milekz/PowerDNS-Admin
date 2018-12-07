@@ -13,7 +13,7 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
-RUN apt-get install -y python3-pip python3-dev supervisor curl mysql-client
+RUN apt-get install -y python3-pip python3-dev supervisor curl mysql-client postgresql-client
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
@@ -36,10 +36,12 @@ RUN apt-get install -y libxml2-dev libxslt1-dev libxmlsec1-dev libffi-dev pkg-co
 
 COPY ./requirements.txt /powerdns-admin/requirements.txt
 RUN pip3 install -r requirements.txt
+RUN pip3 install psycopg2
 
 ADD ./supervisord.conf /etc/supervisord.conf
 ADD . /powerdns-admin/
 COPY ./configs/${ENVIRONMENT}.py /powerdns-admin/config.py
-COPY ./docker/PowerDNS-Admin/entrypoint.sh /entrypoint.sh
+#COPY ./docker/PowerDNS-Admin/entrypoint.sh /entrypoint.sh
+COPY ./docker/PowerDNS-Admin/pg_entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]

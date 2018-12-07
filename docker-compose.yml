@@ -35,12 +35,23 @@ services:
       - PDA_DB_USER=${PDA_DB_USER}
       - PDA_DB_PASSWORD=${PDA_DB_PASSWORD}
       - PDA_DB_PORT=${PDA_DB_PORT}
+#
+      - PDA_PGDB_HOST=${PDA_PGDB_HOST}
+      - PDA_PGDB_NAME=${PDA_PGDB_NAME}
+      - PDA_PGDB_USER=${PDA_PGDB_USER}
+      - PDA_PGDB_PASSWORD=${PDA_PGDB_PASSWORD}
+      - PDA_PGDB_PORT=${PDA_PGDB_PORT}
+#      
+      - PDNS_PROTO=${PDNS_PROTO}
+      - PDNS_PORT=${PDNS_PORT}
       - PDNS_HOST=${PDNS_HOST}
       - PDNS_API_KEY=${PDNS_API_KEY}
       - FLASK_APP=/powerdns-admin/app/__init__.py
     depends_on:
-      powerdns-admin-mysql:
-        condition: service_healthy
+      - pdns-postgres
+#    depends_on:
+#      powerdns-admin-mysql:
+#        condition: service_healthy
 
   powerdns-admin-mysql:
     image: mysql/mysql-server:5.7
@@ -69,6 +80,7 @@ services:
     ports:
       - "53:53"
       - "53:53/udp"
+      - "8081:8081"
     networks:
       - default
     command: --api=yes --api-key=${PDNS_API_KEY} --webserver-address=0.0.0.0 --webserver-allow-from=0.0.0.0/0
@@ -119,6 +131,9 @@ services:
         - PGSQL_DBNAME=${PDNS_PGDB_NAME}
         - PGSQL_USER=${PDNS_PGDB_USER}
         - PGSQL_PASS=${PDNS_PGDB_PASSWORD}
+        - PDA_PGDB_DBNAME=${PDA_PGDB_NAME}
+        - PDA_PGDB_USER=${PDA_PGDB_USER}
+        - PDA_PGDB_PASS=${PDA_PGDB_PASSWORD}
 
                                       
                                       
