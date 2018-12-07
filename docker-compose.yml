@@ -126,6 +126,8 @@ services:
         - powerdns-postgres-data:/var/lib/postgresql/data/
         - ./db_schema:/docker-entrypoint-initdb.d/
      restart: always
+     ports:
+        - "5432:5432"
      environment:
         - POSTGRES_PASSWORD=${PDNS_PGDB_PASSWORD}
         - PGSQL_DBNAME=${PDNS_PGDB_NAME}
@@ -134,7 +136,8 @@ services:
         - PDA_PGDB_DBNAME=${PDA_PGDB_NAME}
         - PDA_PGDB_USER=${PDA_PGDB_USER}
         - PDA_PGDB_PASS=${PDA_PGDB_PASSWORD}
-
+#
+        - PDNS_PGDB_REPLICA_PASSWORD=${PDNS_PGDB_REPLICA_PASSWORD}
                                       
                                       
 networks:
