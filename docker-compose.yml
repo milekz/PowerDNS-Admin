@@ -13,6 +13,11 @@ services:
     memswap_limit: 256M
     ports:
       - "9191:9191"
+    healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:9191"]
+       interval: 30s
+       timeout: 5s
+       retries: 10
     volumes:
       # Code
       - .:/powerdns-admin/
@@ -119,7 +124,7 @@ services:
 #      retries: 5
 
   pdns-postgres:
-     image: postgres:10-alpine
+     image: postgres:11-alpine
      hostname: ${PDNS_PGDB_HOST}
      container_name: ${PDNS_PGDB_HOST}
      volumes:
@@ -138,6 +143,7 @@ services:
         - PDA_PGDB_PASS=${PDA_PGDB_PASSWORD}
 #
         - PDNS_PGDB_REPLICA_PASSWORD=${PDNS_PGDB_REPLICA_PASSWORD}
+        - PDNS_PGDB_REPLICA_USER=${PDNS_PGDB_REPLICA_USER}
                                       
                                       
 networks:

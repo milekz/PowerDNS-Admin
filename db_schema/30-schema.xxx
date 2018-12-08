@@ -95,3 +95,9 @@ CREATE TABLE tsigkeys (
 
 CREATE UNIQUE INDEX namealgoindex ON tsigkeys(name, algorithm);
 
+CREATE PUBLICATION my_publication FOR TABLE domains,records,supermasters,comments,domainmetadata,cryptokeys,tsigkeys ;
+
+GRANT ALL PRIVILEGES ON TABLE domains,records,supermasters,comments,domainmetadata,cryptokeys,tsigkeys to PDNS_PGDB_REPLICA_USER; 
+
+
+
