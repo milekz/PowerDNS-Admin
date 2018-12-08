@@ -21,7 +21,6 @@ DB_PASSWORD = os.environ.get('PDA_DB_PASSWORD')
 #MySQL
 #SQLALCHEMY_DATABASE_URI = 'mysql://'+DB_USER+':'+DB_PASSWORD+'@'+DB_HOST+':'+ str(DB_PORT) + '/'+DB_NAME
 #
-#
 #postgres
 PGDB_HOST = os.environ.get('PDA_PGDB_HOST')
 PGDB_PORT = os.environ.get('PDA_PGDB_PORT', 5432 )
@@ -29,8 +28,6 @@ PGDB_NAME = os.environ.get('PDA_PGDB_NAME')
 PGDB_USER = os.environ.get('PDA_PGDB_USER')
 PGDB_PASSWORD = os.environ.get('PDA_PGDB_PASSWORD')
 SQLALCHEMY_DATABASE_URI = 'postgresql://'+PGDB_USER+':'+PGDB_PASSWORD+'@'+PGDB_HOST+':'+ str(PGDB_PORT) + '/'+PGDB_NAME
-#
-#
 #
 #
 #

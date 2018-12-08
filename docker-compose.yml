@@ -35,11 +35,6 @@ services:
       - default
     environment:
       - ENVIRONMENT=${ENVIRONMENT}
-      - PDA_DB_HOST=${PDA_DB_HOST}
-      - PDA_DB_NAME=${PDA_DB_NAME}
-      - PDA_DB_USER=${PDA_DB_USER}
-      - PDA_DB_PASSWORD=${PDA_DB_PASSWORD}
-      - PDA_DB_PORT=${PDA_DB_PORT}
 #
       - PDA_PGDB_HOST=${PDA_PGDB_HOST}
       - PDA_PGDB_NAME=${PDA_PGDB_NAME}
@@ -54,30 +49,6 @@ services:
       - FLASK_APP=/powerdns-admin/app/__init__.py
     depends_on:
       - pdns-postgres
-#    depends_on:
-#      powerdns-admin-mysql:
-#        condition: service_healthy
-
-#  powerdns-admin-mysql:
-#    image: mysql/mysql-server:5.7
-#    hostname: ${PDA_DB_HOST}
-#    container_name: powerdns-admin-mysql
-#    mem_limit: 256M
-#    memswap_limit: 256M
-#    expose:
-#      - 3306
-#    volumes:
-#      - powerdns-admin-mysql-data:/var/lib/mysql
-#    networks:
-#      - default
-#    environment:
-#      - MYSQL_DATABASE=${PDA_DB_NAME}
-#      - MYSQL_USER=${PDA_DB_USER}
-#      - MYSQL_PASSWORD=${PDA_DB_PASSWORD}
-#    healthcheck:
-#      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-#      timeout: 10s
-#      retries: 5
 
   pdns-server:
     image: milekz/docker-powerdns
@@ -90,9 +61,6 @@ services:
       - default
     command: --api=yes --api-key=${PDNS_API_KEY} --webserver-address=0.0.0.0 --webserver-allow-from=0.0.0.0/0
     environment:
-#      - MYSQL_HOST=${PDNS_DB_HOST}
-#      - MYSQL_USER=${PDNS_DB_USER}
-#      - MYSQL_PASS=${PDNS_DB_PASSWORD}
       - PGSQL_HOST=${PDNS_PGDB_HOST}
       - PGSQL_USER=${PDNS_PGDB_USER}
       - PGSQL_PASS=${PDNS_PGDB_PASSWORD}
@@ -100,28 +68,6 @@ services:
       - PDNS_WEBSERVER_ALLOW_FROM=${PDNS_WEBSERVER_ALLOW_FROM}
     depends_on:
       - pdns-postgres
-#        condition: service_healthy
-
-#  pdns-mysql:
-#    image: mysql/mysql-server:5.7
-#    hostname: ${PDNS_DB_HOST}
-#    container_name: ${PDNS_DB_HOST}
-#    mem_limit: 256M
-#    memswap_limit: 256M
-#    expose:
-#      - 3306
-#    volumes:
-#      - powerdns-mysql-data:/var/lib/mysql
-#    networks:
-#      - default
-#    environment:
-#      - MYSQL_DATABASE=${PDNS_DB_NAME}
-#      - MYSQL_USER=${PDNS_DB_USER}
-#      - MYSQL_PASSWORD=${PDNS_DB_PASSWORD}
-#    healthcheck:
-#      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-#      timeout: 10s
-#      retries: 5
 
   pdns-postgres:
      image: postgres:11-alpine
@@ -150,7 +96,7 @@ networks:
   default:
 
 volumes:
-  powerdns-mysql-data:
+#  powerdns-mysql-data:
   powerdns-admin-mysql-data:
   powerdns-admin-assets:
   powerdns-admin-assets2:

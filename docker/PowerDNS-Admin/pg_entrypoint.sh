@@ -10,9 +10,6 @@ do
     sleep 2;
 done
 
-# PGPASSWORD=${PDA_PGDB_PASSWORD} pg_isready -h ${PDA_PGDB_HOST} -p ${PDA_PGDB_PORT} -U ${PDA_PGDB_USER} 
-
-
 
 # == Vars
 #
@@ -48,15 +45,6 @@ else
 fi
 
 echo "===> Update PDNS API connection info"
-# initial setting if not available in the DB
-#mysql -h${PDA_DB_HOST} -u${PDA_DB_USER} -p${PDA_DB_PASSWORD} -P${PDA_DB_PORT} ${PDA_DB_NAME} -e 
-#"INSERT INTO setting (name, value) SELECT * FROM (SELECT 'pdns_api_url', '${PDNS_PROTO}://${PDNS_HOST}:${PDNS_PORT}') AS tmp WHERE NOT EXISTS (SELECT name FROM setting WHERE name = 'pdns_api_url') LIMIT 1;"
-#mysql -h${PDA_DB_HOST} -u${PDA_DB_USER} -p${PDA_DB_PASSWORD} -P${PDA_DB_PORT} ${PDA_DB_NAME} -e "INSERT INTO setting (name, value) SELECT * FROM (SELECT 'pdns_api_key', '${PDNS_API_KEY}') AS tmp WHERE NOT EXISTS (SELECT name FROM setting WHERE name = 'pdns_api_key') LIMIT 1;"
-
-# update pdns api setting if .env is changed.
-#mysql -h${PDA_DB_HOST} -u${PDA_DB_USER} -p${PDA_DB_PASSWORD} -P${PDA_DB_PORT} ${PDA_DB_NAME} -e "UPDATE setting SET value='${PDNS_PROTO}://${PDNS_HOST}:${PDNS_PORT}' WHERE name='pdns_api_url';"
-#mysql -h${PDA_DB_HOST} -u${PDA_DB_USER} -p${PDA_DB_PASSWORD} -P${PDA_DB_PORT} ${PDA_DB_NAME} -e "UPDATE setting SET value='${PDNS_API_KEY}' WHERE name='pdns_api_key';"
-
 
 echo -e "INSERT INTO setting (name, value) SELECT * FROM (SELECT 'pdns_api_url', '${PDNS_PROTO}://${PDNS_HOST}:${PDNS_PORT}') AS tmp WHERE NOT EXISTS (SELECT name FROM setting WHERE name = 'pdns_api_url') LIMIT 1;" | PGPASSWORD=${PDA_PGDB_PASSWORD} psql -h ${PDA_PGDB_HOST} -p ${PDA_PGDB_PORT} -U ${PDA_PGDB_USER} ${PDA_PGDB_NAME} 
 
@@ -64,9 +52,6 @@ echo -e "INSERT INTO setting (name, value) SELECT * FROM (SELECT 'pdns_api_key',
 
 echo -e "UPDATE setting SET value='${PDNS_PROTO}://${PDNS_HOST}:${PDNS_PORT}' WHERE name='pdns_api_url';" | PGPASSWORD=${PDA_PGDB_PASSWORD} psql -h ${PDA_PGDB_HOST} -p ${PDA_PGDB_PORT} -U ${PDA_PGDB_USER} ${PDA_PGDB_NAME} 
 echo -e "UPDATE setting SET value='${PDNS_API_KEY}' WHERE name='pdns_api_key';" | PGPASSWORD=${PDA_PGDB_PASSWORD} psql -h ${PDA_PGDB_HOST} -p ${PDA_PGDB_PORT} -U ${PDA_PGDB_USER} ${PDA_PGDB_NAME} 
-
-#PGPASSWORD=${PDA_PGDB_PASSWORD} psql -h ${PDA_PGDB_HOST} -p ${PDA_PGDB_PORT} -U ${PDA_PGDB_USER} ${PDA_PGDB_NAME} 
-
 
 
 echo "===> Assets management"
