@@ -57,7 +57,7 @@ services:
     ports:
       - "53:53"
       - "53:53/udp"
-      - "8081:8081"
+#      - "8081:8081"
     networks:
       - default
     command: --api=yes --api-key=${PDNS_API_KEY} --webserver-address=0.0.0.0 --webserver-allow-from=0.0.0.0/0
@@ -76,7 +76,9 @@ services:
      hostname: ${PDNS_PGDB_HOST}
      container_name: ${PDNS_PGDB_HOST}
      volumes:
-        - powerdns-postgres-data:/var/lib/postgresql/data/
+#        - powerdns-postgres-data:/var/lib/postgresql/data/
+        - /docker/postgres:/var/lib/postgresql/data/
+
         - ./db_schema:/docker-entrypoint-initdb.d/
      restart: always
      ports:
@@ -98,7 +100,6 @@ networks:
   default:
 
 volumes:
-#  powerdns-mysql-data:
   powerdns-admin-mysql-data:
   powerdns-admin-assets:
   powerdns-admin-assets2:
