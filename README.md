@@ -1,4 +1,4 @@
-# PowerDNS-Admin
+# PowerDNS-Admin - PosgreSQL version
 A PowerDNS web interface with advanced features.
 
 [![Build Status](https://travis-ci.org/ngoduykhanh/PowerDNS-Admin.svg?branch=master)](https://travis-ci.org/ngoduykhanh/PowerDNS-Admin)
@@ -19,7 +19,7 @@ A PowerDNS web interface with advanced features.
 - Edit IPv6 PTRs using IPv6 addresses directly (no more editing of literal addresses!)
 
 ### Running PowerDNS-Admin
-There are several ways to run PowerDNS-Admin. Following is a simple way to start PowerDNS-Admin with docker in development environment which has PowerDNS-Admin, PowerDNS server and MySQL Back-End Database.
+There are several ways to run PowerDNS-Admin. Following is a simple way to start PowerDNS-Admin with docker in development environment which has PowerDNS-Admin, PowerDNS server and PostgreSQL Back-End Database.
 
 Step 1: Changing configuration
 
