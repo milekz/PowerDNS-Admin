@@ -20,7 +20,7 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.lis
 
 # Install yarn
 RUN apt-get update -y
-RUN apt-get install -y yarn
+RUN apt-get install -y --allow-unauthenticated yarn
 
 # Install Netcat for DB healthcheck
 RUN apt-get install -y netcat
